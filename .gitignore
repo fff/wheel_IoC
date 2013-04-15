@@ -1,5 +1,5 @@
 build
 .gradle/
-.ipr
-.iml
-.iws
+*.ipr
+*.iml
+*.iws
