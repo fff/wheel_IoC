@@ -2,9 +2,10 @@ package com.thoughtworks.wheels;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -13,25 +14,29 @@ import java.io.IOException;
 
 public class XmlParserTest {
 
+    private File file;
+
+    @Before
+    public void setUp() throws Exception {
+        file = new File("src/test/resources/test.xml");
+
+    }
+
     @Test
     public void get_specific_element_from_xml() throws ParserConfigurationException, SAXException, IOException {
 
-        //given
-        File beanFile = new File("src/test/resources/beans.xml");
-
         //when
-        String nodeName = XmlParser.parseXml(beanFile).getDocumentElement().getNodeName();
+        String nodeName = XmlParser.parseXml(file).getDocumentElement().getNodeName();
 
         //then
         Assert.assertThat(nodeName, Matchers.is("beans"));
     }
 
     @Test
-    public void get_bean_id_and_class_from_xml() throws ParserConfigurationException, SAXException, IOException {
+    public void get_bean_under_beans_from_xml() throws ParserConfigurationException, SAXException, IOException {
 
         //given
-        File beanFile = new File("src/test/resources/beans.xml");
-        NodeList nodeList = XmlParser.parseXml(beanFile).getDocumentElement().getElementsByTagName("bean");
+        NodeList nodeList = XmlParser.parseXml(file).getDocumentElement().getElementsByTagName("bean");
 
         //when
         Element bean = (Element) (nodeList.item(0));
@@ -42,11 +47,10 @@ public class XmlParserTest {
     }
 
     @Test
-    public void get_bean_constructor_args_from_xml() throws ParserConfigurationException, SAXException, IOException {
+    public void get_attributes_of_bean_from_xml() throws ParserConfigurationException, SAXException, IOException {
 
         //given
-        File beanFile = new File("src/test/resources/beans.xml");
-        NodeList nodeList = XmlParser.parseXml(beanFile).getDocumentElement().getElementsByTagName("bean");
+        NodeList nodeList = XmlParser.parseXml(file).getDocumentElement().getElementsByTagName("bean");
 
         //when
         Element constructorArgs = (Element) (((Element) (nodeList.item(0))).getElementsByTagName("constructor-args").item(0));
@@ -54,4 +58,5 @@ public class XmlParserTest {
         //then
         Assert.assertThat(constructorArgs.getAttribute("value"), Matchers.is("0001"));
     }
+
 }

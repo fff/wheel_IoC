@@ -18,8 +18,8 @@ public class XmlParser {
             doc.getDocumentElement().normalize();
         } catch (Exception e) {
             e.printStackTrace();
+
         }
         return doc;
     }
-
 }
