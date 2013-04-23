@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<beans>
+    <bean id="customer" class="com.thoughtworks.wheels.Customer">
+        <constructor-args value="0001"/>
+        <constructor-args ref="name"/>
+    </bean>
+    <bean id="name" class="com.thoughtworks.wheels.Name">
+        <property value="Ming"/>
+        <property value="Zhao"/>
+        <property value="xiaoming"/>
+    </bean>
+</beans>
