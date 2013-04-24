@@ -5,11 +5,11 @@ import org.junit.Test;
 
 public class ContainerTest {
 
-    private ApplicationContext applicationContext = new ApplicationContext("");
+    private ApplicationContext applicationContext;
 
     @Before
     public void setUp() {
-
+        applicationContext = new ApplicationContext("src/test/resources/test.xml");
     }
 
     @Test

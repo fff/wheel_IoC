@@ -31,16 +31,12 @@ public class ApplicationContext {
         Object obj = null;
         try {
             String classFullName = getBeanElementByName(beanName).getAttribute(CLASS_FULL_NAME);
-//            obj = this.getClass().getClassLoader().loadClass(classFullName).newInstance();
-//            obj = ClassLoader.getSystemClassLoader().loadClass(classFullName).newInstance();
-            obj = Class.forName(classFullName).newInstance();
-
-
-            Method method = Class.forName(classFullName).getMethod("set" + wrapAString(getPropertyNames(beanName).get(0)));
-//            method.invoke(getPropertyValues(beanName).get(0));
-
-            method.invoke(obj,getPropertyValues(beanName).get(0));
-
+            Class<?> clazz = Class.forName(classFullName);
+            obj = clazz.newInstance();
+            for (Element e : getPropertiesList(beanName)) {
+                Method method = clazz.getMethod("set" + wrapAString(e.getAttribute("name")), String.class);
+                method.invoke(obj, e.getAttribute("var"));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,7 +44,7 @@ public class ApplicationContext {
     }
 
     private String wrapAString(String name) {
-        return name.substring(0,1).toUpperCase() + name.substring(1);
+        return name.substring(0, 1).toUpperCase() + name.substring(1);
 
     }
 
