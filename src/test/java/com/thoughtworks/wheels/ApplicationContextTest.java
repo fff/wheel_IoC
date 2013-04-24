@@ -10,6 +10,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ApplicationContextTest {
@@ -49,14 +50,28 @@ public class ApplicationContextTest {
     }
 
     @Test
-    public void get_bean_constructor_args_from_xml() throws ParserConfigurationException, SAXException, IOException {
+    public void get_bean_constructor_args_list_from_xml() throws ParserConfigurationException, SAXException, IOException {
 
         //when
-        Element constructorArgs = applicationContext.getConstructorArgsElement("customer");
+        ArrayList<Element> constructorArgs = applicationContext.getConstructorArgsList("customer");
 
         //then
-        Assert.assertThat(constructorArgs.getAttribute("value"), Matchers.is("0001"));
+        Assert.assertThat(constructorArgs.get(0).getAttribute("var"), Matchers.is("0001"));
+        Assert.assertThat(constructorArgs.get(1).getAttribute("ref"), Matchers.is("name"));
     }
+
+    @Test
+    public void get_bean_properties_list_from_xml() throws ParserConfigurationException, SAXException, IOException {
+
+        //when
+        ArrayList<Element> constructorArgs = applicationContext.getPropertiesList("name");
+
+        //then
+        Assert.assertThat(constructorArgs.get(0).getAttribute("property"), Matchers.is("Ming"));
+        Assert.assertThat(constructorArgs.get(1).getAttribute("property"), Matchers.is("Zhao"));
+        Assert.assertThat(constructorArgs.get(1).getAttribute("property"), Matchers.is("xiaoming"));
+    }
+
 
     @Test
     public void generate_a_bean_according_to_xml() throws Exception {

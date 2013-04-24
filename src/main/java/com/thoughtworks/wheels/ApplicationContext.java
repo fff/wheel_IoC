@@ -7,6 +7,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ApplicationContext {
@@ -35,12 +36,22 @@ public class ApplicationContext {
         return obj;
     }
 
-    protected void putBeanIntoBeanMap() throws ParserConfigurationException, SAXException, IOException {
-        NodeList nodeList = getBeanElements();
-
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            BEAN_MAP.put(((Element) (nodeList.item(i))).getAttribute("id"), i);
+    public ArrayList<Element> getConstructorArgsList(String beanName) throws IOException, SAXException, ParserConfigurationException {
+        ArrayList<Element> constructorArgs = new ArrayList<>();
+        NodeList constructorArgsList = getBeanElementByName(beanName).getElementsByTagName(BEAN_CONSTRUCTOR_ARGS);
+        for (int i = 0; i < constructorArgsList.getLength(); i++) {
+            constructorArgs.add((Element) constructorArgsList.item(i));
         }
+        return constructorArgs;
+    }
+
+    public ArrayList<Element> getPropertiesList(String beanName) throws IOException, SAXException, ParserConfigurationException {
+        ArrayList<Element> properties = new ArrayList<>();
+        NodeList propertiesList = getBeanElementByName(beanName).getElementsByTagName(BEAN_PROPERTY);
+        for (int i = 0; i < propertiesList.getLength(); i++) {
+            properties.add((Element) propertiesList.item(i));
+        }
+        return properties;
     }
 
     protected Element getBeanElementByName(String beanName) throws ParserConfigurationException, SAXException, IOException {
@@ -48,12 +59,12 @@ public class ApplicationContext {
         return (Element) getBeanElements().item((Integer) BEAN_MAP.get(beanName));
     }
 
-    protected Element getConstructorArgsElement(String beanName) throws IOException, SAXException, ParserConfigurationException {
-        return (Element) getBeanElementByName(beanName).getElementsByTagName(BEAN_CONSTRUCTOR_ARGS).item(0);
-    }
+    protected void putBeanIntoBeanMap() throws ParserConfigurationException, SAXException, IOException {
+        NodeList nodeList = getBeanElements();
 
-    protected Element getPropertyElements(String beanName) throws IOException, SAXException, ParserConfigurationException {
-        return (Element) getBeanElementByName(beanName).getElementsByTagName(BEAN_PROPERTY).item(0);
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            BEAN_MAP.put(((Element) (nodeList.item(i))).getAttribute("id"), i);
+        }
     }
 
     private NodeList getBeanElements() throws ParserConfigurationException, SAXException, IOException {

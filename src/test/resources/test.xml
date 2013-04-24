@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <beans>
     <bean id="customer" class="com.thoughtworks.wheels.Customer">
-        <constructor-args value="0001"/>
-        <constructor-args value="Ming Zhao"/>
+        <constructor-args var="0001"/>
+        <constructor-args var="Ming Zhao"/>
     </bean>
 </beans>

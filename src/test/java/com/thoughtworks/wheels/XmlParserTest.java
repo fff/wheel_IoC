@@ -56,7 +56,7 @@ public class XmlParserTest {
         Element constructorArgs = (Element) (((Element) (nodeList.item(0))).getElementsByTagName("constructor-args").item(0));
 
         //then
-        Assert.assertThat(constructorArgs.getAttribute("value"), Matchers.is("0001"));
+        Assert.assertThat(constructorArgs.getAttribute("var"), Matchers.is("0001"));
     }
 
 }
