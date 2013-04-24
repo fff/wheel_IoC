@@ -43,7 +43,7 @@ public class XmlParserTest {
 
         //then
         Assert.assertThat(bean.getAttribute("id"), Matchers.is("customer"));
-        Assert.assertThat(bean.getAttribute("class"), Matchers.is("com.thoughtworks.wheels.Customer"));
+        Assert.assertThat(bean.getAttribute("class"), Matchers.is("com.thoughtworks.wheels.beans.Customer"));
     }
 
     @Test

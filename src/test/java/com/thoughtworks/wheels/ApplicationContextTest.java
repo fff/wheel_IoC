@@ -1,5 +1,6 @@
 package com.thoughtworks.wheels;
 
+import com.thoughtworks.wheels.beans.CustomerName;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,7 +12,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ApplicationContextTest {
 
@@ -28,25 +28,11 @@ public class ApplicationContextTest {
     public void get_bean_id_and_class_from_xml() throws ParserConfigurationException, SAXException, IOException {
 
         //when
-        Element bean = applicationContext.getBeanElementByName("customer");
+        Element bean = applicationContext.getBeanElementById("customer");
 
         //then
         Assert.assertThat(bean.getAttribute("id"), Matchers.is("customer"));
-        Assert.assertThat(bean.getAttribute("class"), Matchers.is("com.thoughtworks.wheels.Customer"));
-    }
-
-    @Test
-    public void put_beans_from_xml_into_map() throws ParserConfigurationException, SAXException, IOException {
-        //given
-        HashMap expectedMap = new HashMap<>();
-        expectedMap.put("customer", 0);
-        expectedMap.put("name", 1);
-
-        //when
-        applicationContext.putBeanIntoBeanMap();
-
-        //then
-        Assert.assertEquals(expectedMap, applicationContext.BEAN_MAP);
+        Assert.assertThat(bean.getAttribute("class"), Matchers.is("com.thoughtworks.wheels.beans.Customer"));
     }
 
     @Test
@@ -57,14 +43,14 @@ public class ApplicationContextTest {
 
         //then
         Assert.assertThat(constructorArgs.get(0).getAttribute("var"), Matchers.is("0001"));
-        Assert.assertThat(constructorArgs.get(1).getAttribute("ref"), Matchers.is("name"));
+        Assert.assertThat(constructorArgs.get(1).getAttribute("ref"), Matchers.is("customerName"));
     }
 
     @Test
     public void get_bean_properties_list_from_xml() throws ParserConfigurationException, SAXException, IOException {
 
         //when
-        ArrayList<Element> constructorArgs = applicationContext.getPropertiesList("name");
+        ArrayList<Element> constructorArgs = applicationContext.getPropertiesList("customerName");
 
         //then
         Assert.assertThat(constructorArgs.get(0).getAttribute("name"), Matchers.is("first"));
@@ -81,23 +67,14 @@ public class ApplicationContextTest {
         Object name = null;
 
         //when
-        name = applicationContext.getBean("name");
+        name = applicationContext.getBean("customerName");
 
         //then
-        Assert.assertThat(((Name)name).getFirst(), Matchers.is("Ming"));
-        Assert.assertThat(((Name)name).getLast(), Matchers.is("Zhao"));
-        Assert.assertThat(((Name)name).getNick(), Matchers.is("xiaoming"));
+        Assert.assertThat(((CustomerName)name).getFirst(), Matchers.is("Ming"));
+        Assert.assertThat(((CustomerName)name).getLast(), Matchers.is("Zhao"));
+        Assert.assertThat(((CustomerName)name).getNick(), Matchers.is("xiaoming"));
     }
 
-    //    @Test
-//    public void generate_a_bean_according_to_xml() throws Exception {
-//        //given
-//        Name name = new Name();
-//        //when
-//
-//        //then
-//        Assert.assertThat(name.getFirstName(), Matchers.is("Ming"));
-//        Assert.assertThat(name.getLastName(), Matchers.is("Zhao"));
-//        Assert.assertThat(name.getFirstName(), Matchers.is("Ming"));
-//    }
+
+
 }

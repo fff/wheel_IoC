@@ -1,11 +1,11 @@
-package com.thoughtworks.wheels;
+package com.thoughtworks.wheels.beans;
 
-public class Name {
+public class CustomerName {
     private String first;
     private String last;
     private String nick;
 
-    public Name() {
+    public CustomerName() {
     }
 
     public String getFirst() {

@@ -1,6 +1,7 @@
 package com.thoughtworks.wheels;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -10,7 +11,7 @@ import java.io.IOException;
 
 public class XmlParser {
 
-    public static Document parseXml(File file) throws SAXException, IOException, ParserConfigurationException {
+    protected static Document parseXml(File file) throws SAXException, IOException, ParserConfigurationException {
         Document doc = null;
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -22,4 +23,6 @@ public class XmlParser {
         }
         return doc;
     }
+
+
 }
