@@ -7,6 +7,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,6 +18,8 @@ public class ApplicationContext {
     public static final String BEAN_PROPERTY = "property";
     public static final String BEAN_CONSTRUCTOR_ARGS = "constructor-args";
     public static final HashMap BEAN_MAP = new HashMap<String, Integer>();
+    public static final String PROPERTY_NAME = "name";
+    public static final String PROPERTY_VALUE = "var";
 
     private final File file;
 
@@ -27,13 +30,26 @@ public class ApplicationContext {
     public Object getBean(String beanName) {
         Object obj = null;
         try {
-            Element beanElement = getBeanElementByName(beanName);
-            String classFullName = beanElement.getAttribute(CLASS_FULL_NAME);
+            String classFullName = getBeanElementByName(beanName).getAttribute(CLASS_FULL_NAME);
+//            obj = this.getClass().getClassLoader().loadClass(classFullName).newInstance();
+//            obj = ClassLoader.getSystemClassLoader().loadClass(classFullName).newInstance();
             obj = Class.forName(classFullName).newInstance();
+
+
+            Method method = Class.forName(classFullName).getMethod("set" + wrapAString(getPropertyNames(beanName).get(0)));
+//            method.invoke(getPropertyValues(beanName).get(0));
+
+            method.invoke(obj,getPropertyValues(beanName).get(0));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return obj;
+    }
+
+    private String wrapAString(String name) {
+        return name.substring(0,1).toUpperCase() + name.substring(1);
+
     }
 
     public ArrayList<Element> getConstructorArgsList(String beanName) throws IOException, SAXException, ParserConfigurationException {
@@ -45,11 +61,29 @@ public class ApplicationContext {
         return constructorArgs;
     }
 
-    public ArrayList<Element> getPropertiesList(String beanName) throws IOException, SAXException, ParserConfigurationException {
+    protected ArrayList<Element> getPropertiesList(String beanName) throws IOException, SAXException, ParserConfigurationException {
         ArrayList<Element> properties = new ArrayList<>();
         NodeList propertiesList = getBeanElementByName(beanName).getElementsByTagName(BEAN_PROPERTY);
         for (int i = 0; i < propertiesList.getLength(); i++) {
             properties.add((Element) propertiesList.item(i));
+        }
+        return properties;
+    }
+
+    public ArrayList<String> getPropertyNames(String beanName) throws IOException, SAXException, ParserConfigurationException {
+        ArrayList<String> properties = new ArrayList<>();
+        NodeList propertiesList = getBeanElementByName(beanName).getElementsByTagName(BEAN_PROPERTY);
+        for (int i = 0; i < propertiesList.getLength(); i++) {
+            properties.add(((Element) propertiesList.item(i)).getAttribute(PROPERTY_NAME));
+        }
+        return properties;
+    }
+
+    public ArrayList<String> getPropertyValues(String beanName) throws IOException, SAXException, ParserConfigurationException {
+        ArrayList<String> properties = new ArrayList<>();
+        NodeList propertiesList = getBeanElementByName(beanName).getElementsByTagName(BEAN_PROPERTY);
+        for (int i = 0; i < propertiesList.getLength(); i++) {
+            properties.add(((Element) propertiesList.item(i)).getAttribute(PROPERTY_VALUE));
         }
         return properties;
     }

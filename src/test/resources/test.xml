@@ -2,6 +2,6 @@
 <beans>
     <bean id="customer" class="com.thoughtworks.wheels.Customer">
         <constructor-args var="0001"/>
-        <constructor-args var="Ming Zhao"/>
+        <constructor-args ref="name"/>
     </bean>
 </beans>

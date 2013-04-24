@@ -67,21 +67,37 @@ public class ApplicationContextTest {
         ArrayList<Element> constructorArgs = applicationContext.getPropertiesList("name");
 
         //then
-        Assert.assertThat(constructorArgs.get(0).getAttribute("property"), Matchers.is("Ming"));
-        Assert.assertThat(constructorArgs.get(1).getAttribute("property"), Matchers.is("Zhao"));
-        Assert.assertThat(constructorArgs.get(1).getAttribute("property"), Matchers.is("xiaoming"));
+        Assert.assertThat(constructorArgs.get(0).getAttribute("name"), Matchers.is("first"));
+        Assert.assertThat(constructorArgs.get(0).getAttribute("var"), Matchers.is("Ming"));
+        Assert.assertThat(constructorArgs.get(1).getAttribute("name"), Matchers.is("last"));
+        Assert.assertThat(constructorArgs.get(1).getAttribute("var"), Matchers.is("Zhao"));
+        Assert.assertThat(constructorArgs.get(2).getAttribute("name"), Matchers.is("nick"));
+        Assert.assertThat(constructorArgs.get(2).getAttribute("var"), Matchers.is("xiaoming"));
     }
-
 
     @Test
-    public void generate_a_bean_according_to_xml() throws Exception {
+    public void new_a_simple_object_with_provided_data() throws Exception {
+        //given
+        Object name = null;
 
         //when
-        Name name = (Name) applicationContext.getBean("name");
+        name = applicationContext.getBean("name");
 
         //then
-        Assert.assertThat(name.getFirstName(), Matchers.is("Ming"));
-        Assert.assertThat(name.getLastName(), Matchers.is("Zhao"));
-        Assert.assertThat(name.getNickName(), Matchers.is("xiaoming"));
+        Assert.assertThat(((Name)name).getFirst(), Matchers.is("Ming"));
+        Assert.assertThat(((Name)name).getLast(), Matchers.is("Zhao"));
+        Assert.assertThat(((Name)name).getNick(), Matchers.is("xiaoming"));
     }
+
+    //    @Test
+//    public void generate_a_bean_according_to_xml() throws Exception {
+//        //given
+//        Name name = new Name();
+//        //when
+//
+//        //then
+//        Assert.assertThat(name.getFirstName(), Matchers.is("Ming"));
+//        Assert.assertThat(name.getLastName(), Matchers.is("Zhao"));
+//        Assert.assertThat(name.getFirstName(), Matchers.is("Ming"));
+//    }
 }

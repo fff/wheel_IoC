@@ -5,8 +5,8 @@
         <constructor-args ref="name"/>
     </bean>
     <bean id="name" class="com.thoughtworks.wheels.Name">
-        <property var="Ming"/>
-        <property var="Zhao"/>
-        <property var="xiaoming"/>
+        <property name="first" var="Ming"/>
+        <property name="last" var="Zhao"/>
+        <property name="nick" var="xiaoming"/>
     </bean>
 </beans>

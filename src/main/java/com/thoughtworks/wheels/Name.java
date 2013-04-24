@@ -1,20 +1,34 @@
 package com.thoughtworks.wheels;
 
 public class Name {
-    private String firstName;
-    private String lastName;
-    private String nickName;
+    private String first;
+    private String last;
+    private String nick;
 
-    public String getFirstName() {
-        return firstName;
+    public Name() {
     }
 
-
-    public String getLastName() {
-        return lastName;
+    public String getFirst() {
+        return first;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getLast() {
+        return last;
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setFirst(String first) {
+        this.first = first;
+    }
+
+    public void setLast(String last) {
+        this.last = last;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 }
