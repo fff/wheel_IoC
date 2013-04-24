@@ -11,18 +11,12 @@ import java.io.IOException;
 
 public class XmlParser {
 
-    protected static Document parseXml(File file) throws SAXException, IOException, ParserConfigurationException {
+    protected static Document parseXml(File file) throws ParserConfigurationException, IOException, SAXException {
         Document doc = null;
-        try {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            doc = dbFactory.newDocumentBuilder().parse(file);
-            doc.getDocumentElement().normalize();
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        doc = dbFactory.newDocumentBuilder().parse(file);
+        doc.getDocumentElement().normalize();
         return doc;
     }
-
 
 }
