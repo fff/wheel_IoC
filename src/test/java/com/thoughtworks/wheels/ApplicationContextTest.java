@@ -29,7 +29,7 @@ public class ApplicationContextTest {
     public void get_bean_id_and_class_from_xml() throws ParserConfigurationException, SAXException, IOException {
 
         //when
-        Element bean = applicationContext.getBeanElementById("customer");
+        Element bean = applicationContext.getWrapperById("customer").element;
 
         //then
         Assert.assertThat(bean.getAttribute("id"), Matchers.is("customer"));
@@ -72,11 +72,10 @@ public class ApplicationContextTest {
         name = applicationContext.getBean("customerName");
 
         //then
-        Assert.assertThat(((CustomerName)name).getFirst(), Matchers.is("Ming"));
-        Assert.assertThat(((CustomerName)name).getLast(), Matchers.is("Zhao"));
-        Assert.assertThat(((CustomerName)name).getNick(), Matchers.is("xiaoming"));
+        Assert.assertThat(((CustomerName) name).getFirst(), Matchers.is("Ming"));
+        Assert.assertThat(((CustomerName) name).getLast(), Matchers.is("Zhao"));
+        Assert.assertThat(((CustomerName) name).getNick(), Matchers.is("xiaoming"));
     }
-
 
 
 }

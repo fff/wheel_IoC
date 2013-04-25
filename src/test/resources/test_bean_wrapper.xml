@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<beans>
+    <bean id="customerName" class="com.thoughtworks.wheels.beans.CustomerName">
+        <property name="first" var="Feng"/>
+        <!--<property name="status" var="3" type="java.lang.Integer" />-->
+        <property name="format" ref="someFormat"/>
+    </bean>
+</beans>
