@@ -5,6 +5,15 @@ public class CustomerName {
     private String last;
     private String nick;
     private Integer status;
+    private NameFormat nameFormat;
+
+    public NameFormat getNameFormat() {
+        return nameFormat;
+    }
+
+    public void setNameFormat(NameFormat nameFormat) {
+        this.nameFormat = nameFormat;
+    }
 
     public Integer getStatus() {
         return status;

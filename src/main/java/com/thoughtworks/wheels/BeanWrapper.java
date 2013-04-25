@@ -5,8 +5,8 @@ import org.w3c.dom.NodeList;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.thoughtworks.wheels.Constants.*;
 
@@ -19,7 +19,7 @@ public class BeanWrapper<T extends Object> {
     final Element element;
     final Class<T> clazz;
     final T instance;
-    final List<String> refs = new ArrayList<>(0);
+    final Map<String, String> refs = new HashMap<>(0);
 
     public BeanWrapper(Element element) {
         this.element = element;
@@ -42,7 +42,7 @@ public class BeanWrapper<T extends Object> {
         for (int i = 0; i < properties.getLength(); i++) {
             final Element property = (Element) properties.item(i);
             if (property.getAttribute(PROPERTY_REF).length() > 0) {
-                this.refs.add(property.getAttribute(PROPERTY_REF));
+                this.refs.put(property.getAttribute(PROPERTY_NAME), property.getAttribute(PROPERTY_REF));
                 continue;
             }
             final String typeInString = property.getAttribute(PROPERTY_TYPE);
@@ -78,7 +78,7 @@ public class BeanWrapper<T extends Object> {
         }
     }
 
-    public List<String> getRefs() {
+    public Map<String, String> getRefs() {
         return refs;
     }
 }

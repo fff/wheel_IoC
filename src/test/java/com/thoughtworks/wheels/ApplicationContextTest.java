@@ -1,10 +1,10 @@
 package com.thoughtworks.wheels;
 
+import com.thoughtworks.wheels.beans.Customer;
 import com.thoughtworks.wheels.beans.CustomerName;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -12,7 +12,6 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class ApplicationContextTest {
 
@@ -37,33 +36,6 @@ public class ApplicationContextTest {
     }
 
     @Test
-    @Ignore
-    public void get_bean_constructor_args_list_from_xml() throws ParserConfigurationException, SAXException, IOException {
-
-        //when
-        ArrayList<Element> constructorArgs = applicationContext.getConstructorArgsList("customer");
-
-        //then
-        Assert.assertThat(constructorArgs.get(0).getAttribute("var"), Matchers.is("0001"));
-        Assert.assertThat(constructorArgs.get(1).getAttribute("ref"), Matchers.is("customerName"));
-    }
-
-    @Test
-    public void get_bean_properties_list_from_xml() throws ParserConfigurationException, SAXException, IOException {
-
-        //when
-        ArrayList<Element> constructorArgs = applicationContext.getPropertiesList("customerName");
-
-        //then
-        Assert.assertThat(constructorArgs.get(0).getAttribute("name"), Matchers.is("first"));
-        Assert.assertThat(constructorArgs.get(0).getAttribute("var"), Matchers.is("Ming"));
-        Assert.assertThat(constructorArgs.get(1).getAttribute("name"), Matchers.is("last"));
-        Assert.assertThat(constructorArgs.get(1).getAttribute("var"), Matchers.is("Zhao"));
-        Assert.assertThat(constructorArgs.get(2).getAttribute("name"), Matchers.is("nick"));
-        Assert.assertThat(constructorArgs.get(2).getAttribute("var"), Matchers.is("xiaoming"));
-    }
-
-    @Test
     public void new_a_simple_object_with_provided_data() throws Exception {
         //given
         Object name = null;
@@ -78,4 +50,26 @@ public class ApplicationContextTest {
     }
 
 
+    @Test
+    public void initial_ref() throws Exception {
+        //given
+        //when
+        final Customer customer = applicationContext.getBean("customer");
+
+        //then
+        Assert.assertThat(customer.getCustomerName().getFirst(), Matchers.is("Ming"));
+        Assert.assertThat(customer.getCustomerName().getLast(), Matchers.is("Zhao"));
+        Assert.assertThat(customer.getCustomerName().getNick(), Matchers.is("xiaoming"));
+
+    }
+
+    @Test
+    public void ref_with_ref() throws Exception {
+        //when
+        final Customer customer = applicationContext.getBean("customer");
+
+        //then
+        Assert.assertThat(customer.getCustomerName().getNameFormat().getDelimiter(), Matchers.is("-"));
+
+    }
 }
