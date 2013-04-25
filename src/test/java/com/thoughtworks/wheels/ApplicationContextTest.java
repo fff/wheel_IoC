@@ -4,6 +4,7 @@ import com.thoughtworks.wheels.beans.CustomerName;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -36,6 +37,7 @@ public class ApplicationContextTest {
     }
 
     @Test
+    @Ignore
     public void get_bean_constructor_args_list_from_xml() throws ParserConfigurationException, SAXException, IOException {
 
         //when

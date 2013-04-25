@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <beans>
+    <!--<bean id="customer" class="com.thoughtworks.wheels.beans.Customer">-->
+        <!--<constructor-args var="0001"/>-->
+        <!--<constructor-args ref="customerName"/>-->
+    <!--</bean>-->
     <bean id="customer" class="com.thoughtworks.wheels.beans.Customer">
-        <constructor-args var="0001"/>
-        <constructor-args ref="customerName"/>
+        <property name="customerId" var="0001"/>
+        <property name="customerName" ref="customerName"/>
     </bean>
     <bean id="customerName" class="com.thoughtworks.wheels.beans.CustomerName">
         <property name="first" var="Ming"/>
