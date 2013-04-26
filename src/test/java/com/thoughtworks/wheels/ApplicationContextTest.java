@@ -47,7 +47,6 @@ public class ApplicationContextTest {
         Assert.assertThat(((CustomerName) name).getNick(), Matchers.is("xiaoming"));
     }
 
-
     @Test
     public void initial_ref() throws Exception {
         //given
@@ -84,8 +83,16 @@ public class ApplicationContextTest {
     @Ignore
     public void add_child_container() throws Exception {
         //given
+        ApplicationContext father = new ApplicationContext("src/test/resources/beans.xml");
         ApplicationContext child = new ApplicationContext("src/test/resources/test.xml");
 
+        //when
+        father.addChild(child).start();
+        Customer customer = child.getBean("customer");
 
+        //then
+        Assert.assertNotNull(customer);
+        Assert.assertNotNull(customer.getCustomerName());
+        Assert.assertThat(customer.getCustomerName().getFirst(), Matchers.is("Ming"));
     }
 }

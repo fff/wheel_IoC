@@ -53,7 +53,7 @@ public class XmlParserTest {
         NodeList nodeList = XmlParser.parseXml(file).getDocumentElement().getElementsByTagName("bean");
 
         //when
-        Element constructorArgs = (Element) (((Element) (nodeList.item(0))).getElementsByTagName("constructor-args").item(0));
+        Element constructorArgs = (Element) (((Element) (nodeList.item(0))).getElementsByTagName("constructor-arg").item(0));
 
         //then
         Assert.assertThat(constructorArgs.getAttribute("var"), Matchers.is("0001"));

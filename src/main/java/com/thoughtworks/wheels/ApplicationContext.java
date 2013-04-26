@@ -6,16 +6,16 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 import static com.thoughtworks.wheels.Constants.BEAN;
 import static com.thoughtworks.wheels.Constants.BEAN_ID;
 
 public class ApplicationContext {
+    protected ApplicationContext father;
     private Map<String, BeanWrapper<Object>> idWrapperMap;
     private Stack circleDependencyLock = new Stack();
+    private List<ApplicationContext> children = new ArrayList<>();
 
     public ApplicationContext(String fileAddress) {
         File file = new File(fileAddress);
@@ -37,6 +37,12 @@ public class ApplicationContext {
         idWrapperMap = builder.build();
     }
 
+    public ApplicationContext addChild(ApplicationContext child) {
+        child.father = this;
+        this.children.add(child);
+        return this;
+    }
+
     public ApplicationContext start() {
         // step2 constructor ref
         for (BeanWrapper wrap : idWrapperMap.values()) {
@@ -52,6 +58,9 @@ public class ApplicationContext {
                 wrap.setProperty(name, ref.clazz, ref.instance);
             }
         }
+        for (ApplicationContext child : this.children) {
+            child.start();
+        }
         return this;
     }
 
@@ -62,10 +71,11 @@ public class ApplicationContext {
         }
         circleDependencyLock.push(wrap);
         final List<ConstructorArg> constructorRefs = wrap.getConstructorRefs();
+        final Map<String, BeanWrapper<?>> argRefs = new HashMap<>(constructorRefs.size());
         for (ConstructorArg arg : constructorRefs) {
-            initialBeansIfHasConstructorArgs(getWrapperById(arg.ref));
+            argRefs.put(arg.ref, initialBeansIfHasConstructorArgs(getWrapperById(arg.ref)));
         }
-        wrap.initialByConstructorArgs(idWrapperMap);
+        wrap.initialByConstructorArgs(argRefs);
         this.circleDependencyLock.pop();
         return wrap;
     }
@@ -75,8 +85,9 @@ public class ApplicationContext {
     }
 
     protected BeanWrapper getWrapperById(String beanId) {
-        if (!idWrapperMap.containsKey(beanId)) throw new RuntimeException("No Value with id:" + beanId + " exist.");
-        return idWrapperMap.get(beanId);
+        if (this.idWrapperMap.containsKey(beanId)) return this.idWrapperMap.get(beanId);
+        if (this.father == null) throw new RuntimeException("No Value with id:" + beanId + " exist.");
+        return this.father.getWrapperById(beanId);
     }
 
 

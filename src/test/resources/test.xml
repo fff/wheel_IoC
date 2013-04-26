@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <beans>
     <bean id="customer" class="com.thoughtworks.wheels.beans.Customer">
-        <constructor-args var="0001"/>
-        <constructor-args ref="customerName"/>
+        <constructor-arg var="0001"/>
+        <constructor-arg ref="customerName"/>
     </bean>
 </beans>
