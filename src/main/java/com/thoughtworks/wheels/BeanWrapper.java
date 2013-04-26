@@ -22,8 +22,7 @@ public class BeanWrapper<T extends Object> {
         this.element = element;
         try {
             final Elem beanElem = new Elem(element);
-            final Class clazz = Class.forName(beanElem.getFullClassName());
-            this.clazz = clazz;
+            this.clazz = (Class<T>) Class.forName(beanElem.getFullClassName());
             if (beanElem.getConstructorArgs().getLength() > 0) {
                 this.initialByConstructorArgs(beanElem.getConstructorArgs());
             } else {

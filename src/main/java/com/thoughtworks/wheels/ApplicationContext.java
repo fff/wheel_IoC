@@ -35,7 +35,9 @@ public class ApplicationContext {
             builder.put(item.getAttribute(BEAN_ID), new BeanWrapper(item));
         }
         idWrapperMap = builder.build();
+    }
 
+    public ApplicationContext start() {
         // step2 constructor ref
         for (BeanWrapper wrap : idWrapperMap.values()) {
             initialBeansIfHasConstructorArgs(wrap);
@@ -50,6 +52,7 @@ public class ApplicationContext {
                 wrap.setProperty(name, ref.clazz, ref.instance);
             }
         }
+        return this;
     }
 
     protected BeanWrapper initialBeansIfHasConstructorArgs(BeanWrapper wrap) {
@@ -75,5 +78,6 @@ public class ApplicationContext {
         if (!idWrapperMap.containsKey(beanId)) throw new RuntimeException("No Value with id:" + beanId + " exist.");
         return idWrapperMap.get(beanId);
     }
+
 
 }

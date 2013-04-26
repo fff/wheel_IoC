@@ -2,6 +2,7 @@ package com.thoughtworks.wheels;
 
 import com.thoughtworks.wheels.beans.Customer;
 import com.thoughtworks.wheels.beans.CustomerName;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,18 +11,15 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
 import java.io.IOException;
 
 public class ApplicationContextTest {
 
     private ApplicationContext applicationContext;
-    private File beanFile;
 
     @Before
     public void setUp() throws Exception {
-        beanFile = new File("src/test/resources/beans.xml");
-        applicationContext = new ApplicationContext("src/test/resources/beans.xml");
+        applicationContext = new ApplicationContext("src/test/resources/beans.xml").start();
     }
 
     @Test
@@ -80,5 +78,14 @@ public class ApplicationContextTest {
         //then
         Assert.assertThat(customer.getCustomerId(), Matchers.is("0001"));
         Assert.assertThat(customer.getCustomerName().getFirst(), Matchers.is("Ming"));
+    }
+
+    @Test
+    @Ignore
+    public void add_child_container() throws Exception {
+        //given
+        ApplicationContext child = new ApplicationContext("src/test/resources/test.xml");
+
+
     }
 }
