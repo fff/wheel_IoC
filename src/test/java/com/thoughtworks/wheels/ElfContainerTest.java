@@ -2,7 +2,6 @@ package com.thoughtworks.wheels;
 
 import com.thoughtworks.wheels.beans.Customer;
 import com.thoughtworks.wheels.beans.CustomerName;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,20 +12,20 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
-public class ApplicationContextTest {
+public class ElfContainerTest {
 
-    private ApplicationContext applicationContext;
+    private ElfContainer elfContainer;
 
     @Before
     public void setUp() throws Exception {
-        applicationContext = new ApplicationContext("src/test/resources/beans.xml").start();
+        elfContainer = new ElfContainer("src/test/resources/beans.xml").start();
     }
 
     @Test
     public void get_bean_id_and_class_from_xml() throws ParserConfigurationException, SAXException, IOException {
 
         //when
-        Element bean = applicationContext.getWrapperById("customer").element;
+        Element bean = elfContainer.getWrapperById("customer").element;
 
         //then
         Assert.assertThat(bean.getAttribute("id"), Matchers.is("customer"));
@@ -39,7 +38,7 @@ public class ApplicationContextTest {
         Object name = null;
 
         //when
-        name = applicationContext.getBean("customerName");
+        name = elfContainer.getBean("customerName");
 
         //then
         Assert.assertThat(((CustomerName) name).getFirst(), Matchers.is("Ming"));
@@ -51,7 +50,7 @@ public class ApplicationContextTest {
     public void initial_ref() throws Exception {
         //given
         //when
-        final Customer customer = applicationContext.getBean("customer");
+        final Customer customer = elfContainer.getBean("customer");
 
         //then
         Assert.assertThat(customer.getCustomerName().getFirst(), Matchers.is("Ming"));
@@ -63,7 +62,7 @@ public class ApplicationContextTest {
     @Test
     public void ref_with_ref() throws Exception {
         //when
-        final Customer customer = applicationContext.getBean("customer");
+        final Customer customer = elfContainer.getBean("customer");
 
         //then
         Assert.assertThat(customer.getCustomerName().getNameFormat().getDelimiter(), Matchers.is("-"));
@@ -72,7 +71,7 @@ public class ApplicationContextTest {
     @Test
     public void new_bean_by_constructor() throws Exception {
         //when
-        final Customer customer = applicationContext.getBean("zhaoMing");
+        final Customer customer = elfContainer.getBean("zhaoMing");
 
         //then
         Assert.assertThat(customer.getCustomerId(), Matchers.is("0001"));
@@ -80,11 +79,10 @@ public class ApplicationContextTest {
     }
 
     @Test
-    @Ignore
     public void add_child_container() throws Exception {
         //given
-        ApplicationContext father = new ApplicationContext("src/test/resources/beans.xml");
-        ApplicationContext child = new ApplicationContext("src/test/resources/test.xml");
+        ElfContainer father = new ElfContainer("src/test/resources/beans.xml");
+        ElfContainer child = new ElfContainer("src/test/resources/test.xml");
 
         //when
         father.addChild(child).start();

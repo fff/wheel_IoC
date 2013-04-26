@@ -11,13 +11,13 @@ import java.util.*;
 import static com.thoughtworks.wheels.Constants.BEAN;
 import static com.thoughtworks.wheels.Constants.BEAN_ID;
 
-public class ApplicationContext {
-    protected ApplicationContext father;
+public class ElfContainer {
+    protected ElfContainer father;
     private Map<String, BeanWrapper<Object>> idWrapperMap;
     private Stack circleDependencyLock = new Stack();
-    private List<ApplicationContext> children = new ArrayList<>();
+    private List<ElfContainer> children = new ArrayList<>();
 
-    public ApplicationContext(String fileAddress) {
+    public ElfContainer(String fileAddress) {
         File file = new File(fileAddress);
         try {
             this.init(XmlParser.parseXml(file));
@@ -37,13 +37,13 @@ public class ApplicationContext {
         idWrapperMap = builder.build();
     }
 
-    public ApplicationContext addChild(ApplicationContext child) {
+    public ElfContainer addChild(ElfContainer child) {
         child.father = this;
         this.children.add(child);
         return this;
     }
 
-    public ApplicationContext start() {
+    public ElfContainer start() {
         // step2 constructor ref
         for (BeanWrapper wrap : idWrapperMap.values()) {
             initialBeansIfHasConstructorArgs(wrap);
@@ -58,7 +58,7 @@ public class ApplicationContext {
                 wrap.setProperty(name, ref.clazz, ref.instance);
             }
         }
-        for (ApplicationContext child : this.children) {
+        for (ElfContainer child : this.children) {
             child.start();
         }
         return this;

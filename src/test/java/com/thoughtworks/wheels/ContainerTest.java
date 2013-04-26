@@ -5,11 +5,11 @@ import org.junit.Test;
 
 public class ContainerTest {
 
-    private ApplicationContext applicationContext;
+    private ElfContainer elfContainer;
 
     @Before
     public void setUp() {
-        applicationContext = new ApplicationContext("src/test/resources/test.xml");
+        elfContainer = new ElfContainer("src/test/resources/test.xml");
     }
 
     @Test
