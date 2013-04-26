@@ -65,7 +65,7 @@ public class BeanWrapper<T extends Object> {
         }
     }
 
-    public BeanWrapper<T> initialByConstructorArgs(Map<String, BeanWrapper<?>> argRefs) {
+    public BeanWrapper<T> initialByConstructorArgs(Map<String, BeanWrapper<Object>> argRefs) {
         Class<?>[] typeArray = new Class<?>[this.constructorArgs.size()];
         Object[] valueArray = new Object[this.constructorArgs.size()];
         for (int i = 0; i < this.constructorArgs.size(); i++) {
