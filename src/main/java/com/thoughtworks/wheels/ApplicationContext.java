@@ -14,8 +14,6 @@ import static com.thoughtworks.wheels.Constants.BEAN;
 import static com.thoughtworks.wheels.Constants.BEAN_ID;
 
 public class ApplicationContext {
-
-
     private Map<String, BeanWrapper<Object>> idWrapperMap;
     private Stack circleDependencyLock = new Stack();
 

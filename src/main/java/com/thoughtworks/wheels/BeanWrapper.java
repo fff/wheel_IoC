@@ -72,8 +72,8 @@ public class BeanWrapper<T extends Object> {
             final ConstructorArg arg = this.constructorArgs.get(i);
             if (arg.isRef()) {
                 final BeanWrapper<?> argRef = argRefs.get(arg.ref);
-                if(argRef==null||argRef.instance==null){
-                    throw new RuntimeException("Arg-ref["+arg.ref+" was not created");
+                if (argRef == null || argRef.instance == null) {
+                    throw new RuntimeException("Arg-ref[" + arg.ref + " was not created");
                 }
                 typeArray[i] = argRef.clazz;
                 valueArray[i] = argRef.instance;

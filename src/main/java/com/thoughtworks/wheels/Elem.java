@@ -12,7 +12,7 @@ public class Elem {
     }
 
     public Elem(Node item) {
-        this.elem= (Element) item;
+        this.elem = (Element) item;
     }
 
     public String getName() {
@@ -27,15 +27,15 @@ public class Elem {
         return this.getProperty(Constants.PROPERTY_REF);
     }
 
-    public NodeList getConstructorArgs(){
+    public NodeList getConstructorArgs() {
         return this.elem.getElementsByTagName(Constants.BEAN_CONSTRUCTOR_ARG);
     }
 
     public String getId() {
-        return  this.getProperty(Constants.BEAN_ID);
+        return this.getProperty(Constants.BEAN_ID);
     }
 
-    public String getType(){
+    public String getType() {
         return this.getProperty(Constants.PROPERTY_TYPE);
     }
 
