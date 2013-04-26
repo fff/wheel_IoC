@@ -5,30 +5,58 @@ import org.w3c.dom.NodeList;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import static com.thoughtworks.wheels.Constants.*;
-
-/**
- * User: fff
- * Date: 4/25/13
- * Time: 7:31 PM
- */
 public class BeanWrapper<T extends Object> {
     final Element element;
     final Class<T> clazz;
-    final T instance;
-    final Map<String, String> refs = new HashMap<>(0);
+    final List<ConstructorArg> constructorRefs = new ArrayList<>(0);
+    final List<ConstructorArg> constructorArgs = new ArrayList<>(0);
+    final Map<String, String> setterRefs = new HashMap<>(0);
+    T instance;
 
     public BeanWrapper(Element element) {
         this.element = element;
         try {
-            final Class clazz = Class.forName(element.getAttribute(Constants.CLASS_FULL_NAME));
+            final Elem beanElem = new Elem(element);
+            final Class clazz = Class.forName(beanElem.getFullClassName());
             this.clazz = clazz;
-            this.instance = (T) clazz.newInstance();
-            this.initialProperties();
+            if (beanElem.getConstructorArgs().getLength() > 0) {
+                this.initialByConstructorArgs(beanElem.getConstructorArgs());
+            } else {
+                this.initialByProperties();
+            }
         } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //constructor
+    private void initialByConstructorArgs(NodeList constructorArgs) {
+        boolean hasDependency = false;
+        Class<?>[] typeArray = new Class<?>[constructorArgs.getLength()];
+        Object[] valueArray = new Object[constructorArgs.getLength()];
+        for (int i = 0; i < constructorArgs.getLength(); i++) {
+            Elem prop = new Elem(constructorArgs.item(i));
+            final ConstructorArg arg = new ConstructorArg(prop);
+            this.constructorArgs.add(arg);
+            if (arg.isRef()) {
+                this.constructorRefs.add(arg);
+                hasDependency = true;
+            } else {
+                typeArray[i] = arg.getTypeClass();
+                valueArray[i] = arg.getValueObject();
+            }
+        }
+        if (hasDependency) return;
+        try {
+            this.instance = this.clazz.getConstructor(typeArray).newInstance(valueArray);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
         } catch (InstantiationException e) {
             throw new RuntimeException(e);
@@ -37,22 +65,61 @@ public class BeanWrapper<T extends Object> {
         }
     }
 
-    protected void initialProperties() {
+    public BeanWrapper<T> initialByConstructorArgs(Map<String, BeanWrapper<?>> argRefs) {
+        Class<?>[] typeArray = new Class<?>[this.constructorArgs.size()];
+        Object[] valueArray = new Object[this.constructorArgs.size()];
+        for (int i = 0; i < this.constructorArgs.size(); i++) {
+            final ConstructorArg arg = this.constructorArgs.get(i);
+            if (arg.isRef()) {
+                final BeanWrapper<?> argRef = argRefs.get(arg.ref);
+                if(argRef==null||argRef.instance==null){
+                    throw new RuntimeException("Arg-ref["+arg.ref+" was not created");
+                }
+                typeArray[i] = argRef.clazz;
+                valueArray[i] = argRef.instance;
+            } else {
+                typeArray[i] = arg.getTypeClass();
+                valueArray[i] = arg.getValueObject();
+            }
+        }
+        try {
+            this.instance = this.clazz.getConstructor(typeArray).newInstance(valueArray);
+            return this;
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //setter
+    protected void initialByProperties() {
+        try {
+            this.instance = (T) clazz.newInstance();
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
         final NodeList properties = element.getElementsByTagName(Constants.BEAN_PROPERTY);
         for (int i = 0; i < properties.getLength(); i++) {
-            final Element property = (Element) properties.item(i);
-            if (property.getAttribute(PROPERTY_REF).length() > 0) {
-                this.refs.put(property.getAttribute(PROPERTY_NAME), property.getAttribute(PROPERTY_REF));
+            Elem prop = new Elem(properties.item(i));
+            if (prop.getRef() != null) {
+                this.setterRefs.put(prop.getName(), prop.getRef());
                 continue;
             }
-            final String typeInString = property.getAttribute(PROPERTY_TYPE);
+            final String typeInString = prop.getType();
             final Class<?> propertyType;
             try {
-                propertyType = typeInString.length() > 0 ? Class.forName(typeInString) : String.class;
+                propertyType = typeInString != null ? Class.forName(typeInString) : String.class;
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
-            this.setProperty(property.getAttribute(PROPERTY_NAME), propertyType, property.getAttribute(PROPERTY_VAR));
+            this.setProperty(prop.getName(), propertyType, prop.getVar());
         }
     }
 
@@ -78,7 +145,11 @@ public class BeanWrapper<T extends Object> {
         }
     }
 
-    public Map<String, String> getRefs() {
-        return refs;
+    public Map<String, String> getSetterRefs() {
+        return setterRefs;
+    }
+
+    public List<ConstructorArg> getConstructorRefs() {
+        return constructorRefs;
     }
 }

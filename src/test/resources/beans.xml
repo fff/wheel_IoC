@@ -1,9 +1,5 @@
 <?xml version="1.0"?>
 <beans>
-    <!--<bean id="customer" class="com.thoughtworks.wheels.beans.Customer">-->
-    <!--<constructor-args var="0001"/>-->
-    <!--<constructor-args ref="customerName"/>-->
-    <!--</bean>-->
     <bean id="customer" class="com.thoughtworks.wheels.beans.Customer">
         <property name="customerId" var="0001"/>
         <property name="customerName" ref="customerName"/>
@@ -16,5 +12,10 @@
     </bean>
     <bean id="nameFormat" class="com.thoughtworks.wheels.beans.NameFormat">
         <property name="delimiter" var="-"/>
+    </bean>
+
+    <bean id="zhaoMing" class="com.thoughtworks.wheels.beans.Customer">
+        <constructor-arg var="0001"/>
+        <constructor-arg ref="customerName"/>
     </bean>
 </beans>

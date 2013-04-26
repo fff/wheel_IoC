@@ -56,7 +56,7 @@ public class BeanWrapperTest {
         final BeanWrapper<CustomerName> wrapper = new BeanWrapper<>(element);
 
         //then
-        Assert.assertThat(wrapper.getRefs().get("format"), Matchers.is("someFormat"));
+        Assert.assertThat(wrapper.getSetterRefs().get("format"), Matchers.is("someFormat"));
 
     }
 }

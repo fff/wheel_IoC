@@ -70,6 +70,15 @@ public class ApplicationContextTest {
 
         //then
         Assert.assertThat(customer.getCustomerName().getNameFormat().getDelimiter(), Matchers.is("-"));
+    }
 
+    @Test
+    public void new_bean_by_constructor() throws Exception {
+        //when
+        final Customer customer = applicationContext.getBean("zhaoMing");
+
+        //then
+        Assert.assertThat(customer.getCustomerId(), Matchers.is("0001"));
+        Assert.assertThat(customer.getCustomerName().getFirst(), Matchers.is("Ming"));
     }
 }
