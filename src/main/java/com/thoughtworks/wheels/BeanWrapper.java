@@ -16,9 +16,11 @@ public class BeanWrapper<T extends Object> {
     final List<ConstructorArg> constructorRefs = new ArrayList<>(0);
     final List<ConstructorArg> constructorArgs = new ArrayList<>(0);
     final Map<String, String> setterRefs = new HashMap<>(0);
+    final String beanId;
     T instance;
 
-    public BeanWrapper(Element element) {
+    public BeanWrapper(String name, Element element) {
+        this.beanId = name;
         this.element = element;
         try {
             final Elem beanElem = new Elem(element);

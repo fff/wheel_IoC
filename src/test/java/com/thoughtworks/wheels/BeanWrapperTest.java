@@ -28,7 +28,7 @@ public class BeanWrapperTest {
     @Test
     public void testGetSetter() throws Exception {
         //when
-        final Method setter = new BeanWrapper(element).getSetter("first", String.class);
+        final Method setter = new BeanWrapper("customer", element).getSetter("first", String.class);
 
         //then
         Assert.assertThat(setter.getName(), Matchers.is("setFirst"));
@@ -39,7 +39,7 @@ public class BeanWrapperTest {
     @Test
     public void testSetProperty() throws Exception {
         //given
-        final BeanWrapper<CustomerName> beanWrapper = new BeanWrapper(element);
+        final BeanWrapper<CustomerName> beanWrapper = new BeanWrapper("customer", element);
         //when
         beanWrapper.setProperty("first", String.class, "feng");
 
@@ -53,7 +53,7 @@ public class BeanWrapperTest {
     public void testInitialRefs() throws Exception {
 
         //given
-        final BeanWrapper<CustomerName> wrapper = new BeanWrapper<>(element);
+        final BeanWrapper<CustomerName> wrapper = new BeanWrapper<>("customer", element);
 
         //then
         Assert.assertThat(wrapper.getSetterRefs().get("format"), Matchers.is("someFormat"));

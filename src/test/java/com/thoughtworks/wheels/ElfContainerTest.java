@@ -56,7 +56,6 @@ public class ElfContainerTest {
         Assert.assertThat(customer.getCustomerName().getFirst(), Matchers.is("Ming"));
         Assert.assertThat(customer.getCustomerName().getLast(), Matchers.is("Zhao"));
         Assert.assertThat(customer.getCustomerName().getNick(), Matchers.is("xiaoming"));
-
     }
 
     @Test
@@ -92,5 +91,15 @@ public class ElfContainerTest {
         Assert.assertNotNull(customer);
         Assert.assertNotNull(customer.getCustomerName());
         Assert.assertThat(customer.getCustomerName().getFirst(), Matchers.is("Ming"));
+    }
+
+    @Test(expected = CircleDependencyException.class)
+    public void find_circle_dependency() throws Exception {
+        //given
+        ElfContainer friends = new ElfContainer("src/test/resources/test_circle.xml");
+
+        //when
+        friends.start();
+
     }
 }

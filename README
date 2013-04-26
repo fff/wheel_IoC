@@ -1,1 +1,12 @@
-We are trying to implement a new light weight IoC Container ...
+## ELF-Container
+
+### Features
+ * Setter inject
+ * Constructor inject
+ * Container scope
+ * configure by XML
+ * Circle dependency prevent
+
+### TODO
+ * clean code
+ * 'type' for 'var'

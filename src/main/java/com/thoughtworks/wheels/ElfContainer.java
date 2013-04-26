@@ -32,7 +32,8 @@ public class ElfContainer {
         // step1 simple object
         for (int i = 0; i < beanList.getLength(); i++) {
             Element item = (Element) beanList.item(i);
-            builder.put(item.getAttribute(BEAN_ID), new BeanWrapper(item));
+            final String beanId = item.getAttribute(BEAN_ID);
+            builder.put(beanId, new BeanWrapper(beanId, item));
         }
         idWrapperMap = builder.build();
     }
@@ -58,6 +59,8 @@ public class ElfContainer {
                 wrap.setProperty(name, ref.clazz, ref.instance);
             }
         }
+
+        // start children
         for (ElfContainer child : this.children) {
             child.start();
         }
@@ -67,7 +70,7 @@ public class ElfContainer {
     protected BeanWrapper initialBeansIfHasConstructorArgs(BeanWrapper wrap) {
         if (wrap.instance != null) return wrap;
         if (circleDependencyLock.search(wrap) > 0) {
-            throw new RuntimeException("circle dependency found:" + wrap.clazz.toString());
+            throw new CircleDependencyException("circle dependency found:" + wrap.beanId);
         }
         circleDependencyLock.push(wrap);
         final List<ConstructorArg> constructorRefs = wrap.getConstructorRefs();

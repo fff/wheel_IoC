@@ -3,6 +3,11 @@ package com.thoughtworks.wheels.beans;
 public class Customer {
     private String customerId;
     private CustomerName customerName;
+    private Customer friend;
+
+    public Customer(Customer friend) {
+        this.friend = friend;
+    }
 
     public Customer() {
     }
