@@ -18,11 +18,13 @@ public class ElfContainerTest {
 
     @Before
     public void setUp() throws Exception {
-        elfContainer = new ElfContainer("src/test/resources/beans.xml").start();
+        elfContainer = new ElfContainer("src/test/resources/beans.xml");
     }
 
     @Test
     public void get_bean_id_and_class_from_xml() throws ParserConfigurationException, SAXException, IOException {
+        //given
+        elfContainer.start();
 
         //when
         Element bean = elfContainer.getWrapperById("customer").element;
@@ -35,6 +37,7 @@ public class ElfContainerTest {
     @Test
     public void new_a_simple_object_with_provided_data() throws Exception {
         //given
+        elfContainer.start();
         Object name = null;
 
         //when
@@ -49,6 +52,8 @@ public class ElfContainerTest {
     @Test
     public void initial_ref() throws Exception {
         //given
+        elfContainer.start();
+
         //when
         final Customer customer = elfContainer.getBean("customer");
 
@@ -60,6 +65,8 @@ public class ElfContainerTest {
 
     @Test
     public void ref_with_ref() throws Exception {
+        //given
+        elfContainer.start();
         //when
         final Customer customer = elfContainer.getBean("customer");
 
@@ -69,6 +76,8 @@ public class ElfContainerTest {
 
     @Test
     public void new_bean_by_constructor() throws Exception {
+        //given
+        elfContainer.start();
         //when
         final Customer customer = elfContainer.getBean("zhaoMing");
 

@@ -1,12 +1,13 @@
-## ELF-Container
+## ELF-Container 1.0
 
 ### Features
  * Setter inject
  * Constructor inject
  * Container scope
- * configure by XML
- * Circle dependency prevent
+ * Configure by XML
+ * Circle dependency check
 
-### TODO
- * clean code
- * 'type' for 'var'
+### TO-DO
+ * Dependency Inject TAT
+ * Annotation support
+ * 'type' support for 'var'

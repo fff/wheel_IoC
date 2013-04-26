@@ -4,12 +4,14 @@
         <property name="customerId" var="0001"/>
         <property name="customerName" ref="customerName"/>
     </bean>
+
     <bean id="customerName" class="com.thoughtworks.wheels.beans.CustomerName">
         <property name="first" var="Ming"/>
         <property name="last" var="Zhao"/>
         <property name="nick" var="xiaoming"/>
         <property name="nameFormat" ref="nameFormat"/>
     </bean>
+
     <bean id="nameFormat" class="com.thoughtworks.wheels.beans.NameFormat">
         <property name="delimiter" var="-"/>
     </bean>
