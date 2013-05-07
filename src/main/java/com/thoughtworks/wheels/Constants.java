@@ -1,10 +1,5 @@
 package com.thoughtworks.wheels;
 
-/**
- * User: fff
- * Date: 4/25/13
- * Time: 7:59 PM
- */
 public class Constants {
     public static final String BEAN = "bean";
     public static final String BEAN_ID = "id";
