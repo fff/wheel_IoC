@@ -1,4 +1,4 @@
-package com.thoughtworks.wheels.beans;
+package com.thoughtworks.elf.beans;
 
 /**
  * User: fff

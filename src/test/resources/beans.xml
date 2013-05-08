@@ -1,22 +1,22 @@
 <?xml version="1.0"?>
 <beans>
-    <bean id="customer" class="com.thoughtworks.wheels.beans.Customer">
+    <bean id="customer" class="com.thoughtworks.elf.beans.Customer">
         <property name="customerId" var="0001"/>
         <property name="customerName" ref="customerName"/>
     </bean>
 
-    <bean id="customerName" class="com.thoughtworks.wheels.beans.CustomerName">
+    <bean id="customerName" class="com.thoughtworks.elf.beans.CustomerName">
         <property name="first" var="Ming"/>
         <property name="last" var="Zhao"/>
         <property name="nick" var="xiaoming"/>
         <property name="nameFormat" ref="nameFormat"/>
     </bean>
 
-    <bean id="nameFormat" class="com.thoughtworks.wheels.beans.NameFormat">
+    <bean id="nameFormat" class="com.thoughtworks.elf.beans.NameFormat">
         <property name="delimiter" var="-"/>
     </bean>
 
-    <bean id="zhaoMing" class="com.thoughtworks.wheels.beans.Customer">
+    <bean id="zhaoMing" class="com.thoughtworks.elf.beans.Customer">
         <constructor-arg var="0001"/>
         <constructor-arg ref="customerName"/>
     </bean>

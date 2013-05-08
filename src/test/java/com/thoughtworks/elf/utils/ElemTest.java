@@ -1,4 +1,4 @@
-package com.thoughtworks.wheels;
+package com.thoughtworks.elf.utils;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;

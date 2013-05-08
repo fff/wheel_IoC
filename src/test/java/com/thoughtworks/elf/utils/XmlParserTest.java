@@ -1,4 +1,4 @@
-package com.thoughtworks.wheels;
+package com.thoughtworks.elf.utils;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -43,7 +43,7 @@ public class XmlParserTest {
 
         //then
         Assert.assertThat(bean.getAttribute("id"), Matchers.is("customer"));
-        Assert.assertThat(bean.getAttribute("class"), Matchers.is("com.thoughtworks.wheels.beans.Customer"));
+        Assert.assertThat(bean.getAttribute("class"), Matchers.is("com.thoughtworks.elf.beans.Customer"));
     }
 
     @Test

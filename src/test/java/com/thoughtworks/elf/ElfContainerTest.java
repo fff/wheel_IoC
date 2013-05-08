@@ -1,7 +1,7 @@
-package com.thoughtworks.wheels;
+package com.thoughtworks.elf;
 
-import com.thoughtworks.wheels.beans.Customer;
-import com.thoughtworks.wheels.beans.CustomerName;
+import com.thoughtworks.elf.beans.Customer;
+import com.thoughtworks.elf.beans.CustomerName;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
@@ -30,7 +30,7 @@ public class ElfContainerTest {
 
         //then
         Assert.assertThat(bean.getAttribute("id"), Matchers.is("customer"));
-        Assert.assertThat(bean.getAttribute("class"), Matchers.is("com.thoughtworks.wheels.beans.Customer"));
+        Assert.assertThat(bean.getAttribute("class"), Matchers.is("com.thoughtworks.elf.beans.Customer"));
     }
 
     @Test

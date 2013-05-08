@@ -1,6 +1,9 @@
-package com.thoughtworks.wheels;
+package com.thoughtworks.elf;
 
 import com.google.common.collect.ImmutableMap;
+import com.thoughtworks.elf.internal.BeanWrapper;
+import com.thoughtworks.elf.internal.ConstructorArg;
+import com.thoughtworks.elf.utils.XmlParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -11,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import static com.thoughtworks.wheels.Constants.BEAN;
-import static com.thoughtworks.wheels.Constants.BEAN_ID;
+import static com.thoughtworks.elf.internal.Constants.BEAN;
+import static com.thoughtworks.elf.internal.Constants.BEAN_ID;
 
 public class ElfContainer {
     protected ElfContainer father;

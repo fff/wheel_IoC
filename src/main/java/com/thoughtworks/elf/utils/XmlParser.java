@@ -1,4 +1,4 @@
-package com.thoughtworks.wheels;
+package com.thoughtworks.elf.utils;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class XmlParser {
 
-    protected static Document parseXml(File file) throws ParserConfigurationException, IOException, SAXException {
+    public static Document parseXml(File file) throws ParserConfigurationException, IOException, SAXException {
         Document doc = null;
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         doc = dbFactory.newDocumentBuilder().parse(file);

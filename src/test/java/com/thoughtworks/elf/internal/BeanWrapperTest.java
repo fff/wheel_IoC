@@ -1,6 +1,7 @@
-package com.thoughtworks.wheels;
+package com.thoughtworks.elf.internal;
 
-import com.thoughtworks.wheels.beans.CustomerName;
+import com.thoughtworks.elf.beans.CustomerName;
+import com.thoughtworks.elf.utils.XmlParser;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;

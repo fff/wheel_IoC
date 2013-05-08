@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <beans>
-    <bean id="customer" class="com.thoughtworks.wheels.beans.Customer">
+    <bean id="customer" class="com.thoughtworks.elf.beans.Customer">
         <constructor-arg var="0001"/>
         <constructor-arg ref="customerName"/>
     </bean>
